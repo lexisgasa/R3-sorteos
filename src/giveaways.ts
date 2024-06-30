@@ -68,7 +68,7 @@ export const deleteGiveaway = (giveAwayPosition: number): void => {
 };
 
 export const enterGiveaway = (inscriptionNumber: number): void => {
-  const giveaway = programData.giveaways.at(inscriptionNumber);
+  const giveaway = programData.giveaways.at(inscriptionNumber - 1);
   const user = programData.users.find(
     (userData) => userData.email === programData.userEmail
   );
@@ -88,13 +88,30 @@ export const enterGiveaway = (inscriptionNumber: number): void => {
 
 export const listUserGiveaways = (): void => {
   const giveaway = programData.giveaways;
+  const user = programData.users.find(
+    (userData) => userData.email === programData.userEmail
+  );
 
-  if (giveaway.length === 0) {
+  const participatesInGiveaway: Giveaway[] = [];
+
+  giveaway.forEach((giveaway) =>
+    giveaway.participants.forEach((participant) => {
+      if (participant.name === user?.name) {
+        participatesInGiveaway.push(giveaway);
+      }
+    })
+  );
+
+  if (participatesInGiveaway.length === 0) {
     console.log(`No estás inscrito en ningún sorteo`);
   } else {
-    console.log(`Estás inscrito en los siguientes ${giveaway.length} sorteos:`);
-    giveaway.forEach((giveaway, index) => {
-      console.log(`${index}.${giveaway.name} en ${giveaway.socialNetwork} `);
+    console.log(
+      `Estás inscrito en los siguientes ${participatesInGiveaway.length} sorteos:`
+    );
+    participatesInGiveaway.forEach((giveaway, index) => {
+      console.log(
+        `${index + 1}.${giveaway.name} en ${giveaway.socialNetwork} `
+      );
     });
   }
 };
