@@ -34,3 +34,23 @@ export const createGiveaway = (): void => {
     console.log("Ha habido un error al introducir tus datos.");
   }
 };
+
+export const listGiveaways = (): void => {
+  const giveaway = programData.giveaways;
+  const availableGiveaways = giveaway.length;
+
+  if (!giveaway) {
+    console.log(`Actualmente no hay sorteos disponibles`);
+  } else {
+    console.log(
+      `Estos son los sorteos ${availableGiveaways} sorteos disponibles:`
+    );
+    giveaway.forEach((giveaway, index) =>
+      console.log(
+        `${index + 1}. Sorteo de un ${giveaway.name} en ${
+          giveaway.socialNetwork
+        }`
+      )
+    );
+  }
+};
