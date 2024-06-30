@@ -15,4 +15,5 @@ export const loginUser = (email: string, password: string): void => {
   } else {
     process.exit();
   }
+  saveData();
 };
