@@ -67,9 +67,20 @@ export const deleteGiveaway = (giveAwayPosition: number): void => {
 };
 
 export const enterGiveaway = (inscriptionNumber: number): void => {
-  const giveaway = programData.giveaways;
-  if (!giveaway.at(giveAwayPosition)) {
+  const giveaway = programData.giveaways.at(inscriptionNumber);
+  const user = programData.users.find(
+    (userData) => userData.email === programData.userEmail
+  );
+
+  if (!giveaway) {
     console.log(`El número del sorteo que has elegido no existe`);
   } else {
+    if (!user) {
+      console.log(`El usuario no ha sido encontrado`);
+    } else {
+      giveaway.participants.push(user);
+      saveData();
+      console.log(`Has sido añadido al sorteo, ${user?.name}`);
+    }
   }
 };
