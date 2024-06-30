@@ -57,11 +57,19 @@ export const listGiveaways = (): void => {
 
 export const deleteGiveaway = (giveAwayPosition: number): void => {
   const giveaway = programData.giveaways;
-  if (!giveaway) {
+  if (!giveaway.at(giveAwayPosition)) {
     console.log(`El número del sorteo que has elegido no existe`);
   } else {
     giveaway.splice(giveAwayPosition, 1);
     saveData();
     console.log(`El sorteo elegido ha sido eliminado correctamente`);
+  }
+};
+
+export const enterGiveaway = (inscriptionNumber: number): void => {
+  const giveaway = programData.giveaways;
+  if (!giveaway.at(giveAwayPosition)) {
+    console.log(`El número del sorteo que has elegido no existe`);
+  } else {
   }
 };
