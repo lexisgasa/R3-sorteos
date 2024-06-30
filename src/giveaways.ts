@@ -17,3 +17,20 @@ export const loginUser = (email: string, password: string): void => {
   }
   saveData();
 };
+
+export const createGiveaway = (): void => {
+  const giveawayData = askUserNewGiveawayData();
+
+  if (giveawayData) {
+    const fullGiveawayData = {
+      name: giveawayData.giveawayName,
+      socialNetwork: giveawayData.giveawaySocialNetwork,
+      participants: [],
+    };
+    programData.giveaways.push(fullGiveawayData);
+    saveData();
+    console.log(`Tus datos han sido añadidos correctamente.`);
+  } else {
+    console.log("Ha habido un error al introducir tus datos.");
+  }
+};
