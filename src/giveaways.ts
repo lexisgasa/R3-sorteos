@@ -16,7 +16,7 @@ export const loginUser = (email: string, password: string): void => {
       `Hola ${user.name}, elige en el menú de opciones lo que quieres hacer`
     );
   } else {
-    console.log(`El nombre de usuario o la contraseña no son correctas`);
+    console.log("El nombre de usuario o la contraseña no son correctas");
     process.exit();
   }
   saveData();
@@ -26,28 +26,28 @@ export const createGiveaway = (): void => {
   const giveawayData = askUserNewGiveawayData();
 
   if (giveawayData) {
-    const fullGiveawayData = {
+    const fullGiveawayData: Giveaway = {
       name: giveawayData.giveawayName,
       socialNetwork: giveawayData.giveawaySocialNetwork,
       participants: [],
     };
     programData.giveaways.push(fullGiveawayData);
     saveData();
-    console.log(`Tus datos han sido añadidos correctamente.`);
+    console.log("Tus datos han sido añadidos correctamente.");
   } else {
     console.log("Ha habido un error al introducir tus datos.");
   }
 };
 
 export const listGiveaways = (): void => {
-  const giveaway = programData.giveaways;
-  const availableGiveaways = giveaway.length;
+  const giveaways = programData.giveaways;
+  const availableGiveaways = giveaways.length;
 
-  if (availableGiveaways === 0) {
-    console.log(`Actualmente no hay sorteos disponibles`);
+  if (!availableGiveaways) {
+    console.log("Actualmente no hay sorteos disponibles");
   } else if (availableGiveaways === 1) {
-    console.log(`Sólo hay un sorteo disponible`);
-    giveaway.forEach((giveaway, index) =>
+    console.log("Sólo hay un sorteo disponible");
+    giveaways.forEach((giveaway, index) =>
       console.log(
         `${index + 1}. Sorteo de un ${giveaway.name} en ${
           giveaway.socialNetwork
@@ -56,7 +56,7 @@ export const listGiveaways = (): void => {
     );
   } else {
     console.log(`Estos son los ${availableGiveaways} sorteos disponibles:`);
-    giveaway.forEach((giveaway, index) =>
+    giveaways.forEach((giveaway, index) =>
       console.log(
         `${index + 1}. Sorteo de un ${giveaway.name} en ${
           giveaway.socialNetwork
@@ -67,32 +67,32 @@ export const listGiveaways = (): void => {
 };
 
 export const deleteGiveaway = (giveAwayPosition: number): void => {
-  const giveaway = programData.giveaways;
+  const giveaways = programData.giveaways;
 
-  if (!giveaway.at(giveAwayPosition)) {
-    console.log(`El número del sorteo que has elegido no existe`);
-  } else if (giveaway.at(0)) {
-    giveaway.splice(0, 1);
+  if (!giveaways.at(giveAwayPosition)) {
+    console.log("El número del sorteo que has elegido no existe");
+  } else if (giveaways.at(0)) {
+    giveaways.splice(0, 1);
     saveData();
-    console.log(`El sorteo elegido ha sido eliminado correctamente`);
+    console.log("El sorteo elegido ha sido eliminado correctamente");
   } else {
-    giveaway.splice(giveAwayPosition - 1, 1);
+    giveaways.splice(giveAwayPosition - 1, 1);
     saveData();
-    console.log(`El sorteo elegido ha sido eliminado correctamente`);
+    console.log("El sorteo elegido ha sido eliminado correctamente");
   }
 };
 
-export const enterGiveaway = (inscriptionNumber: number): void => {
-  const giveaway = programData.giveaways.at(inscriptionNumber - 1);
+export const enterGiveaway = (inscriptionGiveaway: number): void => {
+  const giveaway = programData.giveaways.at(inscriptionGiveaway - 1);
   const user = programData.users.find(
     (userData) => userData.email === programData.userEmail
   );
 
   if (!giveaway) {
-    console.log(`El número del sorteo que has elegido no existe`);
+    console.log("El número del sorteo que has elegido no existe");
   } else {
     if (!user) {
-      console.log(`El usuario no ha sido encontrado`);
+      console.log("El usuario no ha sido encontrado");
     } else {
       giveaway.participants.push(user);
       saveData();
