@@ -12,7 +12,11 @@ export const loginUser = (email: string, password: string): void => {
   if (user) {
     programData.userEmail = user.email;
     programData.isAdmin = user.isAdmin;
+    console.log(
+      `Hola ${user.name}, elige en el menú de opciones lo que quieres hacer`
+    );
   } else {
+    console.log(`El nombre de usuario o la contraseña no son correctas`);
     process.exit();
   }
   saveData();
@@ -39,12 +43,19 @@ export const listGiveaways = (): void => {
   const giveaway = programData.giveaways;
   const availableGiveaways = giveaway.length;
 
-  if (!giveaway) {
+  if (availableGiveaways === 0) {
     console.log(`Actualmente no hay sorteos disponibles`);
-  } else {
-    console.log(
-      `Estos son los sorteos ${availableGiveaways} sorteos disponibles:`
+  } else if (availableGiveaways === 1) {
+    console.log(`Sólo hay un sorteo disponible`);
+    giveaway.forEach((giveaway, index) =>
+      console.log(
+        `${index + 1}. Sorteo de un ${giveaway.name} en ${
+          giveaway.socialNetwork
+        }`
+      )
     );
+  } else {
+    console.log(`Estos son los ${availableGiveaways} sorteos disponibles:`);
     giveaway.forEach((giveaway, index) =>
       console.log(
         `${index + 1}. Sorteo de un ${giveaway.name} en ${
@@ -60,8 +71,12 @@ export const deleteGiveaway = (giveAwayPosition: number): void => {
 
   if (!giveaway.at(giveAwayPosition)) {
     console.log(`El número del sorteo que has elegido no existe`);
+  } else if (giveaway.at(0)) {
+    giveaway.splice(0, 1);
+    saveData();
+    console.log(`El sorteo elegido ha sido eliminado correctamente`);
   } else {
-    giveaway.splice(giveAwayPosition, 1);
+    giveaway.splice(giveAwayPosition - 1, 1);
     saveData();
     console.log(`El sorteo elegido ha sido eliminado correctamente`);
   }
@@ -104,6 +119,13 @@ export const listUserGiveaways = (): void => {
 
   if (participatesInGiveaway.length === 0) {
     console.log(`No estás inscrito en ningún sorteo`);
+  } else if (participatesInGiveaway.length === 1) {
+    console.log(`Estás inscrito en el siguiente sorteo:`);
+    participatesInGiveaway.forEach((giveaway, index) => {
+      console.log(
+        `${index + 1}.${giveaway.name} en ${giveaway.socialNetwork} `
+      );
+    });
   } else {
     console.log(
       `Estás inscrito en los siguientes ${participatesInGiveaway.length} sorteos:`
