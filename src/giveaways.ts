@@ -66,17 +66,14 @@ export const listGiveaways = (): void => {
   }
 };
 
-export const deleteGiveaway = (giveAwayPosition: number): void => {
+export const deleteGiveaway = (giveawayPosition: number): void => {
   const giveaways = programData.giveaways;
+  const index = giveawayPosition - 1;
 
-  if (!giveaways.at(giveAwayPosition)) {
+  if (!giveaways.at(index)) {
     console.log("El número del sorteo que has elegido no existe");
-  } else if (giveaways.at(0)) {
-    giveaways.splice(0, 1);
-    saveData();
-    console.log("El sorteo elegido ha sido eliminado correctamente");
   } else {
-    giveaways.splice(giveAwayPosition - 1, 1);
+    giveaways.splice(index, 1);
     saveData();
     console.log("El sorteo elegido ha sido eliminado correctamente");
   }
@@ -96,20 +93,20 @@ export const enterGiveaway = (inscriptionGiveaway: number): void => {
     } else {
       giveaway.participants.push(user);
       saveData();
-      console.log(`Has sido añadido al sorteo, ${user?.name}`);
+      console.log(`Has sido añadido al sorteo, ${user.name}`);
     }
   }
 };
 
 export const listUserGiveaways = (): void => {
-  const giveaway = programData.giveaways;
+  const giveaways = programData.giveaways;
   const user = programData.users.find(
     (userData) => userData.email === programData.userEmail
   );
 
   const participatesInGiveaway: Giveaway[] = [];
 
-  giveaway.forEach((giveaway) =>
+  giveaways.forEach((giveaway) =>
     giveaway.participants.forEach((participant) => {
       if (participant.name === user?.name) {
         participatesInGiveaway.push(giveaway);
